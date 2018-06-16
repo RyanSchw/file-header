@@ -322,6 +322,7 @@ module.exports = FileHeader =
 
   addHeader: (editor, buffer, headerTemplate) ->
     return unless newHeader = @getNewHeader editor, headerTemplate
+	newHeader = newHeader.replace(/(?:\r\n|\r|\n)/g, @getCurrentFileLineEnding(buffer))
     newHeader += @getCurrentFileLineEnding(buffer).repeat(atom.config.get('file-header.numOfEmptyLinesAfterNewHeader', scope: (do editor.getRootScopeDescriptor)))
     # remove leading empty lines
     buffer.scan(/\s*(?:\r\n|\r|\n)(?=\S)/, (result) =>
